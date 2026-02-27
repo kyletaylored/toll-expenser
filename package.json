@@ -1,21 +1,35 @@
 {
-	"name": "cloudflare-workers-openapi",
+	"name": "toll-expenser",
 	"version": "0.0.1",
 	"private": true,
 	"scripts": {
-		"deploy": "wrangler deploy",
 		"dev": "wrangler dev",
+		"dev:frontend": "vite",
+		"build": "vite build",
+		"deploy": "vite build && wrangler deploy",
 		"start": "wrangler dev",
 		"cf-typegen": "wrangler types"
 	},
 	"dependencies": {
-		"chanfana": "^2.6.3",
+		"@chakra-ui/react": "^3.30.0",
+		"@emotion/react": "^11.14.0",
+		"@emotion/styled": "^11.14.1",
+		"axios": "^1.13.2",
+		"date-fns": "^4.1.0",
+		"framer-motion": "^12.23.26",
 		"hono": "^4.6.20",
-		"zod": "^3.24.1"
+		"jspdf": "^4.2.0",
+		"jspdf-autotable": "^5.0.2",
+		"lucide-react": "^0.562.0",
+		"react": "^19.2.3",
+		"react-dom": "^19.2.3"
 	},
 	"devDependencies": {
 		"@types/node": "^22.13.0",
 		"@types/service-worker-mock": "^2.0.4",
+		"@vitejs/plugin-react": "^5.1.2",
+		"terser": "^5.44.1",
+		"vite": "^7.3.0",
 		"wrangler": "^4.68.1"
 	}
 }
