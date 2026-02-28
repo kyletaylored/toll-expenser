@@ -1,7 +1,13 @@
 {
 	"name": "toll-expenser",
 	"version": "0.0.1",
+	"description": "Track and generate expense receipts for NTTA toll transactions. Cloudflare Worker API proxy + React SPA.",
+	"author": "Kyle Taylor <kyletaylored@gmail.com>",
+	"license": "MIT",
 	"private": true,
+	"engines": {
+		"node": ">=24"
+	},
 	"scripts": {
 		"dev": "wrangler dev",
 		"dev:frontend": "vite",
@@ -17,19 +23,19 @@
 		"axios": "^1.13.2",
 		"date-fns": "^4.1.0",
 		"framer-motion": "^12.23.26",
-		"hono": "^4.6.20",
+		"hono": "^4.12.3",
 		"jspdf": "^4.2.0",
 		"jspdf-autotable": "^5.0.2",
-		"lucide-react": "^0.562.0",
+		"lucide-react": "^0.575.0",
 		"react": "^19.2.3",
 		"react-dom": "^19.2.3"
 	},
 	"devDependencies": {
-		"@types/node": "^22.13.0",
+		"@types/node": "^25.3.2",
 		"@types/service-worker-mock": "^2.0.4",
 		"@vitejs/plugin-react": "^5.1.2",
 		"terser": "^5.44.1",
 		"vite": "^7.3.0",
-		"wrangler": "^4.68.1"
+		"wrangler": "^4.69.0"
 	}
 }

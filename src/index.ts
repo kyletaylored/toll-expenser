@@ -32,7 +32,7 @@ app.use(
 	})
 );
 
-// NTTA API proxy — adds Origin/Referer headers that browsers cannot set
+// API proxy — adds Origin/Referer headers that browsers cannot set
 app.all("/api/*", async (c) => {
 	const url = new URL(c.req.url);
 	const apiPath = url.pathname.replace("/api", "");
@@ -40,7 +40,7 @@ app.all("/api/*", async (c) => {
 
 	const headers = new Headers(c.req.raw.headers);
 
-	// Required by NTTA — cannot be set from browser JavaScript
+	// Required by — cannot be set from browser JavaScript
 	headers.set("Origin", "https://ssptrips.ntta.org");
 	headers.set("Referer", "https://ssptrips.ntta.org/");
 	headers.set("Host", "sptrips.ntta.org");

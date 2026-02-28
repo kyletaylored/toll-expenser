@@ -19,7 +19,7 @@ const apiClient = axios.create({
   },
 });
 
-// Format date for NTTA API (e.g., "9/20/2025, 12:00:00 AM")
+// Format date for API (e.g., "9/20/2025, 12:00:00 AM")
 export const formatNTTADate = (date, time = '12:00:00 AM') => {
   const formatted = format(date, 'M/d/yyyy');
   return `${formatted} ${time}`;
@@ -67,26 +67,26 @@ export const authenticate = async (username, password, rememberMe = false) => {
 
     // Check multiple possible locations for the token
     const accessToken = authData.access_token ||
-                       authData.accessToken ||
-                       authData.AccessToken ||
-                       authData.token ||
-                       response.headers.authorization ||
-                       response.headers.Authorization;
+      authData.accessToken ||
+      authData.AccessToken ||
+      authData.token ||
+      response.headers.authorization ||
+      response.headers.Authorization;
 
     // Extract the customer ID from various possible fields
     const customerId = authData.CustomerId ||
-                      authData.AccountId ||
-                      authData.CustomerAccountId ||
-                      authData.UserId;
+      authData.AccountId ||
+      authData.CustomerAccountId ||
+      authData.UserId;
 
     logger.debug('Extracted accessToken:', accessToken ? 'Found' : 'Not found');
     logger.debug('Extracted customerId:', customerId);
 
     // Construct FullName from FirstName and LastName if not present
     const fullName = authData.FullName ||
-                    (authData.FirstName && authData.LastName
-                      ? `${authData.FirstName} ${authData.LastName}`
-                      : authData.UserName);
+      (authData.FirstName && authData.LastName
+        ? `${authData.FirstName} ${authData.LastName}`
+        : authData.UserName);
 
     if (accessToken) {
       return {

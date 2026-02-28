@@ -446,7 +446,7 @@ export default function TransactionViewer({ user, accountSummary, onLogout }) {
           <Flex align="center" gap={3} data-group="branding">
             <Image
               src="/tollway-logo.png"
-              alt="NTTA Logo"
+              alt="Logo"
               h={{ base: "40px", md: "50px" }}
               data-element="logo"
             />

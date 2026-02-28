@@ -53,13 +53,13 @@ export const generatePDF = (user, accountSummary, groupedTransactions) => {
     // Header
     doc.setFontSize(18);
     doc.setFont(undefined, 'bold');
-    doc.text('NTTA Toll Expense Receipt', 105, yPosition, { align: 'center' });
+    doc.text('Toll Expense Receipt', 105, yPosition, { align: 'center' });
     yPosition += 12;
 
     // Account Information (if enabled in settings)
     let accountInfoIncluded = false;
     if (settings.includeName || settings.includeAccountNumber || settings.includeEmail ||
-        settings.includePhone || settings.includeAddress) {
+      settings.includePhone || settings.includeAddress) {
       doc.setFontSize(11);
       doc.setFont(undefined, 'bold');
       doc.text('Account Information', 20, yPosition);

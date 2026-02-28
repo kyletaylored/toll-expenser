@@ -67,7 +67,7 @@ export function validateUsername(username) {
 /**
  * Validate password
  * - 8-128 characters
- * - No specific character requirements (NTTA handles this)
+ * - No specific character requirements (handles this)
  */
 export function validatePassword(password) {
   if (!password || typeof password !== 'string') {

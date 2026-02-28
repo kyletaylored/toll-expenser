@@ -1,8 +1,8 @@
 /**
- * Service Worker for NTTA Toll Expense Tracker
+ * Service Worker for Toll Expense Tracker
  *
  * API requests (/api/*) are NOT intercepted here — they go directly to the
- * Cloudflare Worker, which adds the Origin/Referer headers NTTA requires.
+ * Cloudflare Worker, which adds the Origin/Referer headers requires.
  *
  * This service worker only handles static asset caching for offline support.
  */

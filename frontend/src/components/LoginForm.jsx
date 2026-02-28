@@ -67,7 +67,7 @@ export default function LoginForm({ onLoginSuccess }) {
             <Box textAlign="center">
               <Image
                 src="/tollway-logo.png"
-                alt="NTTA Logo"
+                alt="Logo"
                 h="120px"
                 mx="auto"
                 mb={4}

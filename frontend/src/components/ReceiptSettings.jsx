@@ -126,7 +126,7 @@ export default function ReceiptSettings({ isOpen, onClose }) {
                     <Box>
                       <Text fontWeight="medium">Include Account Number</Text>
                       <Text fontSize="sm" color="gray.600">
-                        Display your NTTA account number
+                        Display your account number
                       </Text>
                     </Box>
                   </Checkbox.Label>
