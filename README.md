@@ -59,3 +59,16 @@ frontend/         React app (Vite)
 dist/             Vite build output — served by Cloudflare as static assets
 .github/workflows CI, Deploy, Release
 ```
+
+### Disclaimer
+
+This is an unofficial, third-party application not affiliated with NTTA.
+
+- ⚠️ Use at your own risk
+- ⚠️ No warranty or guarantees provided
+- ⚠️ Always verify receipts against official NTTA statements
+- ⚠️ Author not liable for any damages, losses, or account issues
+
+This software uses NTTA's undocumented API which may violate their Terms of Service. Your account may be suspended or terminated. Use official NTTA channels when possible.
+
+**THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND.**
