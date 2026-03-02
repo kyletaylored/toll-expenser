@@ -445,7 +445,7 @@ export default function TransactionViewer({ user, accountSummary, onLogout }) {
         <Stack gap={4} data-section="page-header">
           <Flex align="center" gap={3} data-group="branding">
             <Image
-              src="/tollway-logo.png"
+              src="/logo.png"
               alt="Logo"
               h={{ base: "40px", md: "50px" }}
               data-element="logo"

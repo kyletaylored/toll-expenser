@@ -66,7 +66,7 @@ export default function LoginForm({ onLoginSuccess }) {
           <Stack gap={6}>
             <Box textAlign="center">
               <Image
-                src="/tollway-logo.png"
+                src="/logo.png"
                 alt="Logo"
                 h="120px"
                 mx="auto"

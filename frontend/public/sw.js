@@ -14,7 +14,7 @@ const CACHE_NAME = `ntta-toll-tracker-${CACHE_VERSION}`;
 const STATIC_ASSETS = [
   '/',
   '/index.html',
-  '/tollway-logo.png',
+  '/logo.png',
   '/favicon-32x32.png',
   '/favicon-16x16.png',
   '/apple-touch-icon.png',
