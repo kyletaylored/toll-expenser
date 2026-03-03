@@ -14,6 +14,14 @@
 		"nodejs_compat"
 	],
 	/**
+	 * Datadog OTEL — set DD_API_KEY secret to enable all three signals (traces, metrics, logs).
+	 * DD_API_KEY is a secret:  wrangler secret put DD_API_KEY
+	 * DD_OTLP_SITE is a var:   change to "datadoghq.eu" for the EU region
+	 */
+	"vars": {
+		"DD_OTLP_SITE": "datadoghq.com"
+	},
+	/**
 	 * Static Assets — React SPA built to ./dist by Vite
 	 * https://developers.cloudflare.com/workers/static-assets/binding/
 	 */
