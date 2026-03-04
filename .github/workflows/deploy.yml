@@ -9,12 +9,9 @@ jobs:
     name: Deploy to Cloudflare Workers
     runs-on: ubuntu-latest
 
-    environment:
-      name: production
-      url: ${{ secrets.VITE_APP_URL }}
-
     env:
       DD_API_KEY: ${{ secrets.DD_API_KEY }}
+      VITE_APP_URL: ${{ secrets.VITE_APP_URL }}
 
     steps:
       - uses: actions/checkout@v6
