@@ -80,7 +80,7 @@ export default function LoginForm({ onLoginSuccess }) {
               </Text>
             </Box>
 
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} aria-label="Sign in to Toll Expense Tracker">
               <Stack gap={4}>
                 <Field.Root required>
                   <Field.Label>Username</Field.Label>
@@ -92,6 +92,7 @@ export default function LoginForm({ onLoginSuccess }) {
                     placeholder="Enter your username"
                     autoComplete={isPrivacyMode ? "off" : "username"}
                     name={isPrivacyMode ? "ntta-username-demo" : "username"}
+                    data-dd-privacy="mask"
                   />
                 </Field.Root>
 
@@ -105,6 +106,7 @@ export default function LoginForm({ onLoginSuccess }) {
                     placeholder="Enter your password"
                     autoComplete={isPrivacyMode ? "off" : "current-password"}
                     name={isPrivacyMode ? "ntta-password-demo" : "password"}
+                    data-dd-privacy="mask"
                   />
                 </Field.Root>
 
@@ -123,7 +125,7 @@ export default function LoginForm({ onLoginSuccess }) {
                 </Flex>
 
                 {error && (
-                  <Box p={3} bg="red.50" borderRadius="md" borderWidth="1px" borderColor="red.200">
+                  <Box role="alert" p={3} bg="red.50" borderRadius="md" borderWidth="1px" borderColor="red.200">
                     <Stack direction="row" align="center" gap={2}>
                       <TriangleAlertIcon size={16} color="red" />
                       <Text fontSize="sm" color="red.700">{error}</Text>

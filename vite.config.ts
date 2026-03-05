@@ -1,3 +1,4 @@
+/// <reference types="vitest" />
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 
@@ -9,7 +10,7 @@ export default defineConfig(({ mode }) => ({
 	build: {
 		outDir: "../dist",
 		emptyOutDir: true,
-		sourcemap: mode === "development",
+		sourcemap: true,
 		minify: "terser",
 		terserOptions: {
 			compress: {
@@ -38,5 +39,10 @@ export default defineConfig(({ mode }) => ({
 				changeOrigin: true,
 			},
 		},
+	},
+
+	test: {
+		environment: "node",
+		include: ["src/**/*.test.{js,ts}"],
 	},
 }));

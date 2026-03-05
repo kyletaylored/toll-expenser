@@ -5,11 +5,14 @@ on:
     branches: ["**"]
   pull_request:
     branches: [main]
+  workflow_call:
 
 jobs:
   build:
-    name: Build (Node ${{ matrix.node-version }})
+    name: Build & Test (Node ${{ matrix.node-version }})
     runs-on: ubuntu-latest
+    # Skip when the release bot pushes the version bump commit — CI already ran before the release.
+    if: github.actor != 'github-actions[bot]'
 
     strategy:
       matrix:
@@ -28,6 +31,9 @@ jobs:
 
       - name: TypeScript type check
         run: npx tsc --noEmit
+
+      - name: Unit tests
+        run: npm test
 
       - name: Build frontend
         run: npm run build

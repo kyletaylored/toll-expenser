@@ -18,7 +18,7 @@ export default function AccountInfo({ accountSummary, loading, error }) {
     return (
       <Card.Root>
         <Card.Body>
-          <Flex justify="center" align="center" py={4}>
+          <Flex role="status" aria-label="Loading account information" justify="center" align="center" py={4}>
             <Spinner size="lg" color="blue.500" />
             <Text ml={4}>Loading account information...</Text>
           </Flex>
@@ -29,7 +29,7 @@ export default function AccountInfo({ accountSummary, loading, error }) {
 
   if (error) {
     return (
-      <Box p={3} bg="red.50" borderRadius="md" borderWidth="1px" borderColor="red.200">
+      <Box role="alert" p={3} bg="red.50" borderRadius="md" borderWidth="1px" borderColor="red.200">
         <Stack direction="row" align="center" gap={2}>
           <TriangleAlertIcon size={16} color="red" />
           <Text fontSize="sm" color="red.700">{error}</Text>
@@ -51,10 +51,10 @@ export default function AccountInfo({ accountSummary, loading, error }) {
       <Card.Body>
         <Flex justify="space-between" align="start" mb={4}>
           <Box>
-            <Heading size="md" mb={2}>
+            <Heading size="md" mb={2} data-dd-privacy="mask">
               {maskData(accountSummary.FullName, 'name')}
             </Heading>
-            <Text fontSize="sm" color="gray.600">
+            <Text fontSize="sm" color="gray.600" data-dd-privacy="mask">
               Account #{maskData(accountSummary.AccountId?.toString(), 'account')}
             </Text>
           </Box>
@@ -68,7 +68,7 @@ export default function AccountInfo({ accountSummary, loading, error }) {
             <Text fontSize="sm" fontWeight="medium" color="gray.600" mb={1}>
               Current Toll Balance
             </Text>
-            <Text fontSize="2xl" fontWeight="bold" color={accountSummary.TollBal > 0 ? 'green.500' : 'red.500'}>
+            <Text fontSize="2xl" fontWeight="bold" color={accountSummary.TollBal > 0 ? 'green.500' : 'red.500'} data-dd-privacy="mask">
               ${maskData(Math.abs(accountSummary.TollBal).toFixed(2), 'money')}
             </Text>
             <Text fontSize="sm" color="gray.600">
@@ -106,19 +106,19 @@ export default function AccountInfo({ accountSummary, loading, error }) {
             <Text fontSize="sm" fontWeight="medium" color="gray.600" mb={1}>
               Contact Information
             </Text>
-            <Text fontSize="sm">{maskData(accountSummary.EmailAddress, 'email')}</Text>
-            <Text fontSize="sm">{maskData(accountSummary.PhoneNumber, 'phone')}</Text>
+            <Text fontSize="sm" data-dd-privacy="mask">{maskData(accountSummary.EmailAddress, 'email')}</Text>
+            <Text fontSize="sm" data-dd-privacy="mask">{maskData(accountSummary.PhoneNumber, 'phone')}</Text>
           </Box>
 
           <Box p={3} bg="gray.50" borderRadius="md">
             <Text fontSize="sm" fontWeight="medium" color="gray.600" mb={1}>
               Address
             </Text>
-            <Text fontSize="sm">
+            <Text fontSize="sm" data-dd-privacy="mask">
               {maskData(accountSummary.Line1, 'address')}
               {accountSummary.Line2 && <>, {maskData(accountSummary.Line2, 'address')}</>}
             </Text>
-            <Text fontSize="sm">
+            <Text fontSize="sm" data-dd-privacy="mask">
               {maskData(accountSummary.City, 'address')}, {accountSummary.State} {maskData(accountSummary.Zip1, 'address')}
             </Text>
           </Box>
@@ -126,7 +126,7 @@ export default function AccountInfo({ accountSummary, loading, error }) {
 
         {accountSummary.ReplenishmentAmnt > 0 && (
           <Box mt={4} p={3} bg="blue.50" borderRadius="md">
-            <Text fontSize="sm">
+            <Text fontSize="sm" data-dd-privacy="mask">
               ✓ Auto-replenishment enabled: ${maskData(accountSummary.ReplenishmentAmnt.toFixed(2), 'money')} when
               balance falls below ${maskData(accountSummary.ThresholdAmount.toFixed(2), 'money')}
             </Text>

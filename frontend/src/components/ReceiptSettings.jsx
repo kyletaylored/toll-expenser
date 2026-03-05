@@ -54,6 +54,9 @@ export default function ReceiptSettings({ isOpen, onClose }) {
 
   return (
     <Box
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="receipt-settings-title"
       position="fixed"
       top={0}
       left={0}
@@ -76,13 +79,14 @@ export default function ReceiptSettings({ isOpen, onClose }) {
           <Flex justify="space-between" align="center">
             <Flex align="center" gap={2}>
               <Settings size={20} />
-              <Heading size="md">Receipt Settings</Heading>
+              <Heading size="md" id="receipt-settings-title">Receipt Settings</Heading>
             </Flex>
             <Button
               onClick={onClose}
               variant="ghost"
               size="sm"
               p={1}
+              aria-label="Close receipt settings"
             >
               <X size={20} />
             </Button>

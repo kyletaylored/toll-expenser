@@ -39,52 +39,53 @@ Steps:
 
 ---
 
-## Required secrets
+## Required secrets & variables
 
-Set these under **Settings → Secrets and variables → Actions**:
+**Secrets** — Settings → Secrets and variables → Actions → Secrets:
 
 | Secret | Description |
 | --- | --- |
 | `CLOUDFLARE_API_TOKEN` | API token with Workers deploy permissions |
 | `VITE_APP_URL` | Live URL of the deployed app (used for the GitHub environment deployment link) |
-| `DD_API_KEY` | Datadog API key — enables all three OTEL signals (traces, metrics, logs) |
+
+**Variables** — Settings → Secrets and variables → Actions → Variables:
+
+These are public Datadog RUM values that get embedded into the frontend JS bundle at build time. Safe to store as variables (not secrets).
+
+| Variable | Description |
+| --- | --- |
+| `VITE_DD_RUM_APPLICATION_ID` | Datadog RUM application ID |
+| `VITE_DD_RUM_CLIENT_TOKEN` | Datadog RUM client token (`pub...`) |
+| `VITE_DD_SITE` | Datadog site (e.g. `datadoghq.com`) |
+| `VITE_DD_ENV` | Environment tag (e.g. `prod`) |
+| `VITE_DD_SERVICE` | Service name (e.g. `toll-expenser`) |
+| `VITE_DD_SESSION_SAMPLE_RATE` | % of sessions to track (e.g. `100`) |
+| `VITE_DD_SESSION_REPLAY_SAMPLE_RATE` | % of sessions to record replay (e.g. `20`) |
+| `VITE_DD_DEFAULT_PRIVACY_LEVEL` | RUM privacy level (e.g. `mask-user-input`) |
+
+> `VITE_DD_VERSION` is set automatically from the release tag — no variable needed.
 
 ---
 
 ## CI workflow
 
-Runs on every push and pull request against `main`. Tests two active Node.js LTS versions.
+Runs on every push and pull request against `main`. Tests two active Node.js LTS versions. Also runs as a required gate before the Release workflow proceeds.
 
 Steps:
 1. TypeScript type check (`npx tsc --noEmit`)
-2. Vite production build (`npm run build`)
+2. Unit tests (`npm test` → Vitest)
+3. Vite production build (`npm run build`)
 
 CI does **not** trigger a deploy. Deploys only happen via a published release.
+
+> Commits pushed by the release bot (`github-actions[bot]`) are automatically skipped — CI already ran before the release was created.
 
 ---
 
 ## OpenTelemetry (Datadog)
 
-The worker sends all three OTEL signals to Datadog via OTLP HTTP. All signals are disabled and zero-overhead when `DD_API_KEY` is not set (local dev default).
+Worker-side OTEL signals (traces, metrics, logs) are sent to Datadog via **Cloudflare's built-in OTLP integration** — no `DD_API_KEY` secret or custom instrumentation code required.
 
-**To enable**, set the API key secret on the deployed worker:
-
-```bash
-wrangler secret put DD_API_KEY
-```
+Configure the integration in the Cloudflare dashboard under **Workers & Pages → toll-expenser → Settings → Observability**.
 
 `DD_OTLP_SITE` is a wrangler var defaulting to `datadoghq.com`. Override it in `wrangler.jsonc` for the EU region (`datadoghq.eu`).
-
-**Endpoints used** (derived from `DD_OTLP_SITE`):
-
-| Signal | Endpoint |
-| --- | --- |
-| Traces | `https://otlp.datadoghq.com/v1/traces` |
-| Metrics | `https://otlp.datadoghq.com/v1/metrics` |
-| Logs | `https://otlp.datadoghq.com/v1/logs` |
-
-**What each `/api/*` request produces:**
-
-- **Traces**: Root span (HTTP method, path, status) + auto-instrumented child span for the NTTA upstream `fetch()`; custom attributes `ntta.endpoint`, `ntta.method`, `ntta.upstream.status`
-- **Metrics**: `http.server.requests.total` (counter) and `http.server.request_duration_ms` (histogram), both tagged by method, status code, and NTTA endpoint; delta temporality as required by Datadog
-- **Logs**: Structured OTLP log records for request start (INFO), upstream errors (WARN), and proxy failures (ERROR); correlated to traces via trace/span IDs

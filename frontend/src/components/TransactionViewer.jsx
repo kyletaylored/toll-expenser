@@ -452,7 +452,7 @@ export default function TransactionViewer({ user, accountSummary, onLogout }) {
             />
             <Box data-group="title">
               <Heading size={{ base: "md", md: "lg" }}>Toll Expense Tracker</Heading>
-              <Text color="gray.600" mt={1} fontSize={{ base: "sm", md: "md" }}>
+              <Text color="gray.600" mt={1} fontSize={{ base: "sm", md: "md" }} data-dd-privacy="mask">
                 Welcome back, {maskData(user.fullName, 'name')}
               </Text>
             </Box>
@@ -473,6 +473,8 @@ export default function TransactionViewer({ user, accountSummary, onLogout }) {
               size={{ base: "sm", md: "md" }}
               width={{ base: "full", sm: "auto" }}
               data-action="toggle-privacy"
+              aria-pressed={isPrivacyMode}
+              aria-label={isPrivacyMode ? "Privacy mode on — click to turn off" : "Privacy mode off — click to turn on"}
             >
               <Flex align="center" gap={2}>
                 {isPrivacyMode ? <EyeOff size={16} /> : <Eye size={16} />}
@@ -584,7 +586,7 @@ export default function TransactionViewer({ user, accountSummary, onLogout }) {
               </Button>
 
               {error && (
-                <Box p={3} bg="red.50" borderRadius="md" borderWidth="1px" borderColor="red.200">
+                <Box role="alert" p={3} bg="red.50" borderRadius="md" borderWidth="1px" borderColor="red.200">
                   <Stack direction="row" align="center" gap={2}>
                     <TriangleAlertIcon size={16} color="red" />
                     <Text fontSize="sm" color="red.700">{error}</Text>
@@ -633,7 +635,7 @@ export default function TransactionViewer({ user, accountSummary, onLogout }) {
                     <Text fontSize="sm" fontWeight="medium" color="gray.600" mb={1}>
                       Selected Amount
                     </Text>
-                    <Text fontSize="3xl" fontWeight="bold" color="green.600">
+                    <Text fontSize="3xl" fontWeight="bold" color="green.600" data-dd-privacy="mask">
                       ${maskData(calculateTotal(transactions).toFixed(2), 'money')}
                     </Text>
                     <Text fontSize="sm" color="gray.600">
@@ -665,7 +667,7 @@ export default function TransactionViewer({ user, accountSummary, onLogout }) {
                       <Text fontSize="xs" fontWeight="medium" color="gray.600" mb={1}>
                         Amount
                       </Text>
-                      <Text fontSize="xl" fontWeight="bold" color="green.600">
+                      <Text fontSize="xl" fontWeight="bold" color="green.600" data-dd-privacy="mask">
                         ${maskData(calculateTotal(transactions).toFixed(2), 'money')}
                       </Text>
                     </Box>
@@ -698,6 +700,7 @@ export default function TransactionViewer({ user, accountSummary, onLogout }) {
                           value={groupBy}
                           onChange={(e) => setGroupBy(e.target.value)}
                           data-input="group-by"
+                          aria-label="Group transactions by"
                         >
                           <option value="day">Group by Day</option>
                           <option value="trip">Group by Trip</option>
@@ -809,7 +812,7 @@ export default function TransactionViewer({ user, accountSummary, onLogout }) {
                                     <Heading size="xs">
                                       {formatGroupLabel(groupKey, groupTransactions)}
                                     </Heading>
-                                    <Text fontSize="xs" color="gray.600" mt={1}>
+                                    <Text fontSize="xs" color="gray.600" mt={1} data-dd-privacy="mask">
                                       {groupTransactions.length} transaction(s) • ${maskData(groupTotal.toFixed(2), 'money')} selected
                                     </Text>
                                   </Box>
@@ -820,7 +823,7 @@ export default function TransactionViewer({ user, accountSummary, onLogout }) {
                                   <Heading size="sm">
                                     {formatGroupLabel(groupKey, groupTransactions)}
                                   </Heading>
-                                  <Text fontSize="sm" color="gray.600" mt={1}>
+                                  <Text fontSize="sm" color="gray.600" mt={1} data-dd-privacy="mask">
                                     {groupTransactions.length} transaction(s) • ${maskData(groupTotal.toFixed(2), 'money')} selected
                                   </Text>
                                 </Box>
@@ -836,6 +839,8 @@ export default function TransactionViewer({ user, accountSummary, onLogout }) {
                                     disabled={groupSelected === 0}
                                     size="sm"
                                     bgColor="#fff"
+                                    aria-label={`Business purpose for ${formatGroupLabel(groupKey, groupTransactions)}`}
+                                    data-dd-privacy="mask"
                                   />
                                 </Field.Root>
 
@@ -890,6 +895,7 @@ export default function TransactionViewer({ user, accountSummary, onLogout }) {
                                               onCheckedChange={() =>
                                                 handleToggleTransaction(transaction.CustomerTripId)
                                               }
+                                              aria-label={`Select transaction from ${format(parseISO(transaction.Entry_TripDateTime), 'MMM d, yyyy')} at ${formatLocation(transaction)}`}
                                             >
                                               <Checkbox.HiddenInput />
                                               <Checkbox.Control />
@@ -909,20 +915,20 @@ export default function TransactionViewer({ user, accountSummary, onLogout }) {
                                             </Box>
                                           </Table.Cell>
                                           <Table.Cell>
-                                            <Text fontSize="sm">{formatLocation(transaction)}</Text>
+                                            <Text fontSize="sm" data-dd-privacy="mask">{formatLocation(transaction)}</Text>
                                           </Table.Cell>
                                           <Table.Cell>
-                                            <Text fontSize="sm" fontFamily="mono">
+                                            <Text fontSize="sm" fontFamily="mono" data-dd-privacy="mask">
                                               {maskData(transaction.TagId || 'N/A', 'tag')}
                                             </Text>
                                           </Table.Cell>
                                           <Table.Cell>
-                                            <Text fontSize="sm" fontFamily="mono">
+                                            <Text fontSize="sm" fontFamily="mono" data-dd-privacy="mask">
                                               {maskData(transaction.VehicleNumber || 'N/A', 'vehicle')}
                                             </Text>
                                           </Table.Cell>
                                           <Table.Cell textAlign="end">
-                                            <Text fontWeight="medium" color="green.700">
+                                            <Text fontWeight="medium" color="green.700" data-dd-privacy="mask">
                                               ${maskData(formatAmount(transaction.TollAmount), 'money')}
                                             </Text>
                                           </Table.Cell>
@@ -939,6 +945,8 @@ export default function TransactionViewer({ user, accountSummary, onLogout }) {
                                                 }
                                                 placeholder="e.g., Client meeting"
                                                 disabled={!selectedTransactions.has(transaction.CustomerTripId)}
+                                                aria-label={`Business purpose for transaction on ${format(parseISO(transaction.Entry_TripDateTime), 'MMM d, yyyy')} at ${formatLocation(transaction)}`}
+                                                data-dd-privacy="mask"
                                               />
                                             </Table.Cell>
                                           )}
