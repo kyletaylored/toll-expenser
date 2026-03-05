@@ -5,6 +5,7 @@
 | Workflow | File | Trigger |
 | --- | --- | --- |
 | **CI** | `workflows/ci.yml` | Every push and pull request |
+| **Preview** | `workflows/preview.yml` | Every push (non-release bot) |
 | **Deploy** | `workflows/deploy.yml` | GitHub Release published |
 | **Release** | `workflows/release.yml` | Manual (`workflow_dispatch`) |
 
@@ -22,6 +23,21 @@ The Release workflow will:
 - Create a GitHub Release with auto-generated release notes
 
 Publishing the GitHub Release automatically triggers the Deploy workflow.
+
+---
+
+## Preview workflow
+
+Triggered by: every push to any branch (except `github-actions[bot]` commits).
+
+Uses `wrangler versions upload --preview-alias dev` — creates an undeployed version and attaches the `dev` alias to it. Production traffic is **not affected**.
+
+Preview URL: `https://dev-toll-expenser.<subdomain>.workers.dev`
+
+- `VITE_DD_ENV` is hardcoded to `dev` so RUM sessions are tagged separately from prod
+- `VITE_DD_VERSION` is set to the commit SHA for traceability
+- Concurrent pushes cancel in-flight runs — the latest push always wins
+- The alias persists; visiting the URL always shows the most recently uploaded version
 
 ---
 
@@ -47,6 +63,8 @@ Steps:
 | --- | --- |
 | `CLOUDFLARE_API_TOKEN` | API token with Workers deploy permissions |
 | `VITE_APP_URL` | Live URL of the deployed app (used for the GitHub environment deployment link) |
+| `DD_API_KEY` | Datadog API key — used by the Vite plugin to upload sourcemaps on deploy |
+| `DD_APP_KEY` | Datadog Application key — used by the Vite plugin to upload sourcemaps on deploy |
 
 **Variables** — Settings → Secrets and variables → Actions → Variables:
 
@@ -63,7 +81,7 @@ These are public Datadog RUM values that get embedded into the frontend JS bundl
 | `VITE_DD_SESSION_REPLAY_SAMPLE_RATE` | % of sessions to record replay (e.g. `20`) |
 | `VITE_DD_DEFAULT_PRIVACY_LEVEL` | RUM privacy level (e.g. `mask-user-input`) |
 
-> `VITE_DD_VERSION` is set automatically from the release tag — no variable needed.
+> `VITE_DD_VERSION` is set automatically — from the release tag in Deploy, and from the commit SHA in Preview. No variable needed.
 
 ---
 
